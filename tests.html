@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Regex Tests</title>
+</head>
+<body>
+  <h1>Regex Validation Tests</h1>
+  <div id="results"></div>
+
+  <script type="module">
+    import {
+      descriptionRegex,
+      amountRegex,
+      dateRegex,
+      categoryRegex,
+      duplicateWordRegex
+    } from './scripts/validators.js';
+
+    const results = document.getElementById('results');
+
+    function test(name, condition) {
+      const p = document.createElement('p');
+      p.textContent = `${name}: ${condition ? "PASS" : "FAIL"}`;
+      results.appendChild(p);
+    }
+
+    test("Valid amount", amountRegex.test("12.50"));
+    test("Invalid amount", !amountRegex.test("12.999"));
+    test("Valid date", dateRegex.test("2025-09-29"));
+    test("Invalid date", !dateRegex.test("2025-13-01"));
+    test("Duplicate word", duplicateWordRegex.test("coffee coffee"));
+  </script>
+</body>
+</html>
