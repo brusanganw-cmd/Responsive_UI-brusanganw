@@ -1,31 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Finance Tracker</title>
-    <link rel="stylesheet" href="styles/main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Finance Tracker</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
+
 <body>
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
   <header>
-  <a href="#main" class="skip-link">Skip to content</a>
-  <nav>
-    <ul>
-      <li><a href="#dashboard">Dashboard</a></li>
-      <li><a href="#records">Records</a></li>
-      <li><a href="#settings">Settings</a></li>
-    </ul>
-  </nav>
-</header>
+    <h1>Student Finance Tracker</h1>
+    <nav aria-label="Primary Navigation">
+      <ul>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#records">Records</a></li>
+        <li><a href="#add-record">Add Transaction</a></li>
+        <li><a href="#settings">Settings</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<main id="main">
-  <section id="dashboard"></section>
-  <section id="records"></section>
-  <section id="form"></section>
-  <section id="settings"></section>
-</main>
+  <!-- Main -->
+  <main id="main-content">
 
-<footer></footer>
-<script type="module" src="scripts/app.js"></script>  
+    <!-- Dashboard Section -->
+    <section id="dashboard" aria-labelledby="dashboard-heading">
+      <h2 id="dashboard-heading">Dashboard</h2>
+
+      <div class="stats-container">
+        <div class="stat-card">
+          <h3>Total Transactions</h3>
+          <p id="total-count">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Total Spent</h3>
+          <p id="total-amount">$0.00</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Top Category</h3>
+          <p id="top-category">—</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Last 7 Days</h3>
+          <p id="last-seven-days">$0.00</p>
+        </div>
+      </div>
+
+      <!-- Cap status -->
+      <div id="cap-status" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Records Section -->
+    <section id="records" aria-labelledby="records-heading">
+      <h2 id="records-heading">Transactions</h2>
+
+      <!-- Search -->
+      <div class="search-controls">
+        <label for="search-input">Regex Search</label>
+        <input type="text" id="search-input" placeholder="Enter regex pattern" />
+        <label>
+          <input type="checkbox" id="case-toggle" />
+          Case Insensitive
+        </label>
+        <div id="search-error" role="alert"></div>
+      </div>
+
+      <!-- Sorting -->
+      <div class="sort-controls">
+        <button data-sort="date">Sort by Date</button>
+        <button data-sort="description">Sort by Description</button>
+        <button data-sort="amount">Sort by Amount</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="records-body">
+            <!-- JS will render rows here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Add Record Section -->
+    <section id="add-record" aria-labelledby="add-heading">
+      <h2 id="add-heading">Add Transaction</h2>
+
+      <form id="transaction-form" novalidate>
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" id="description" required />
+          <small class="error-message" id="description-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="text" id="amount" required />
+          <small class="error-message" id="amount-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category</label>
+          <input type="text" id="category" required />
+          <small class="error-message" id="category-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Date (YYYY-MM-DD)</label>
+          <input type="text" id="date" required />
+          <small class="error-message" id="date-error"></small>
+        </div>
+
+        <button type="submit">Save Transaction</button>
+
+        <div id="form-status" role="status" aria-live="polite"></div>
+
+      </form>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="settings" aria-labelledby="settings-heading">
+      <h2 id="settings-heading">Settings</h2>
+
+      <div class="settings-group">
+        <label for="monthly-cap">Monthly Spending Cap</label>
+        <input type="text" id="monthly-cap" />
+      </div>
+
+      <div class="settings-group">
+        <button id="export-json">Export JSON</button>
+        <input type="file" id="import-json" accept=".json" />
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" aria-labelledby="about-heading">
+      <h2 id="about-heading">About</h2>
+      <p>
+        This Student Finance Tracker helps students monitor expenses,
+        analyze spending habits, and manage financial goals.
+      </p>
+      <p>
+        Contact: <a href="https://github.com/brusanganw-cmd/" target="_blank">My GitHub</a>
+      </p>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Student Finance Tracker</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script type="module" src="scripts/app.js"></script>
+
 </body>
 </html>
