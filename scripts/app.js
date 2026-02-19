@@ -1,74 +1,65 @@
-import {
-  validateDescription,
-  validateAmount,
-  validateDate,
-  validateCategory
-} from './validators.js';
+import { addRecord, setRecords, sortRecords, getRecords } from "./state.js";
+import { renderTable } from "./ui.js";
+import { compileRegex, highlight } from "./search.js";
 
-const form = document.getElementById('transaction-form');
+const form = document.getElementById("transaction-form");
+const searchInput = document.getElementById("search-input");
+const caseToggle = document.getElementById("case-toggle");
 
-const descriptionInput = document.getElementById('description');
-const amountInput = document.getElementById('amount');
-const categoryInput = document.getElementById('category');
-const dateInput = document.getElementById('date');
+let currentRegex = null;
 
-const descriptionError = document.getElementById('description-error');
-const amountError = document.getElementById('amount-error');
-const categoryError = document.getElementById('category-error');
-const dateError = document.getElementById('date-error');
-
-function showError(input, errorElement, message) {
-  errorElement.textContent = message;
-  input.setAttribute('aria-invalid', message ? 'true' : 'false');
-}
-
-descriptionInput.addEventListener('input', () => {
-  showError(
-    descriptionInput,
-    descriptionError,
-    validateDescription(descriptionInput.value)
-  );
-});
-
-amountInput.addEventListener('input', () => {
-  showError(
-    amountInput,
-    amountError,
-    validateAmount(amountInput.value)
-  );
-});
-
-categoryInput.addEventListener('input', () => {
-  showError(
-    categoryInput,
-    categoryError,
-    validateCategory(categoryInput.value)
-  );
-});
-
-dateInput.addEventListener('input', () => {
-  showError(
-    dateInput,
-    dateError,
-    validateDate(dateInput.value)
-  );
-});
-
-form.addEventListener('submit', (e) => {
+/* ===== Add Record ===== */
+form.addEventListener("submit", e => {
   e.preventDefault();
 
-  const descMsg = validateDescription(descriptionInput.value);
-  const amtMsg = validateAmount(amountInput.value);
-  const catMsg = validateCategory(categoryInput.value);
-  const dateMsg = validateDate(dateInput.value);
+  const description = document.getElementById("description").value.trim();
+  const amount = parseFloat(document.getElementById("amount").value);
+  const category = document.getElementById("category").value.trim();
+  const date = document.getElementById("date").value;
 
-  showError(descriptionInput, descriptionError, descMsg);
-  showError(amountInput, amountError, amtMsg);
-  showError(categoryInput, categoryError, catMsg);
-  showError(dateInput, dateError, dateMsg);
+  const newRecord = {
+    id: crypto.randomUUID(),
+    description,
+    amount,
+    category,
+    date,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
 
-  if (!descMsg && !amtMsg && !catMsg && !dateMsg) {
-    document.getElementById('form-status').textContent =
-      "Transaction validated successfully.";
+  addRecord(newRecord);
+  renderTable();
+  form.reset();
+});
+
+/* ===== Sorting ===== */
+document.querySelectorAll("[data-sort]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    sortRecords(btn.dataset.sort);
+    renderTable();
+  });
+});
+
+/* ===== Search ===== */
+searchInput.addEventListener("input", () => {
+  const flags = caseToggle.checked ? "i" : "";
+  currentRegex = compileRegex(searchInput.value, flags);
+
+  const records = getRecords();
+
+  if (!currentRegex) {
+    renderTable();
+    return;
   }
+
+  const filtered = records.filter(r =>
+    currentRegex.test(r.description)
+  );
+
+  renderTable(
+    filtered.map(r => ({
+      ...r,
+      description: highlight(r.description, currentRegex)
+    }))
+  );
 });
