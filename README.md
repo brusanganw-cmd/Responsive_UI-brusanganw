@@ -1,5 +1,5 @@
 # Responsive UI — brusanganw
-
+Live app: https://brusanganw-cmd.github.io/Responsive_UI-brusanganw/
 A small responsive UI demo project built with plain HTML, CSS and JavaScript. It demonstrates client-side state, storage, validation and search utilities for a simple interactive page.
 
 ## Features
