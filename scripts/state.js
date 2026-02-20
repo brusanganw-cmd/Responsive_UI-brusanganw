@@ -1,5 +1,10 @@
 let records = [];
 
+/* Initialize state from storage */
+export function initializeRecords(data = []) {
+  records = [...data];
+}
+
 export function setRecords(data) {
   records = [...data];
 }
@@ -10,6 +15,10 @@ export function getRecords() {
 
 export function addRecord(record) {
   records.push(record);
+}
+
+export function deleteRecord(id) {
+  records = records.filter(r => r.id !== id);
 }
 
 export function sortRecords(by) {
@@ -29,13 +38,13 @@ export function sortRecords(by) {
 }
 
 export function getTotals() {
-  const records = getRecords();
+  const data = getRecords();
 
-  const income = records
+  const income = data
     .filter(r => r.amount > 0)
     .reduce((sum, r) => sum + r.amount, 0);
 
-  const expenses = records
+  const expenses = data
     .filter(r => r.amount < 0)
     .reduce((sum, r) => sum + r.amount, 0);
 

@@ -1,6 +1,30 @@
-import { addRecord, sortRecords, getRecords } from "./state.js";
+import {
+  initializeRecords,
+  addRecord,
+  deleteRecord,
+  sortRecords,
+  getRecords,
+  getTotals
+} from "./state.js";
+
+import {
+  saveRecords,
+  loadRecords
+} from "./storage.js";
+
 import { renderTable, renderStats } from "./ui.js";
 import { compileRegex, highlight } from "./search.js";
+
+const storedData = loadRecords();
+initializeRecords(storedData);
+
+renderTable();
+renderStats();
+
+/* Helper to sync state and storage */
+function syncStorage() {
+  saveRecords(getRecords());
+}
 
 const form = document.getElementById("transaction-form");
 const searchInput = document.getElementById("search-input");
@@ -8,7 +32,6 @@ const caseToggle = document.getElementById("case-toggle");
 
 let currentRegex = null;
 
-/* Add Record */
 form.addEventListener("submit", e => {
   e.preventDefault();
 
@@ -16,6 +39,8 @@ form.addEventListener("submit", e => {
   const amount = parseFloat(document.getElementById("amount").value);
   const category = document.getElementById("category").value.trim();
   const date = document.getElementById("date").value;
+
+  if (!description || isNaN(amount)) return;
 
   const newRecord = {
     id: crypto.randomUUID(),
@@ -28,21 +53,30 @@ form.addEventListener("submit", e => {
   };
 
   addRecord(newRecord);
+  syncStorage();
   renderTable();
   renderStats();
   form.reset();
 });
 
-/* Sorting */
 document.querySelectorAll("[data-sort]").forEach(btn => {
   btn.addEventListener("click", () => {
     sortRecords(btn.dataset.sort);
+    syncStorage();
     renderTable();
     renderStats();
   });
 });
 
-/* Search */
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("delete-btn")) {
+    deleteRecord(e.target.dataset.id);
+    syncStorage();
+    renderTable();
+    renderStats();
+  }
+});
+
 searchInput.addEventListener("input", () => {
   const flags = caseToggle.checked ? "i" : "";
   currentRegex = compileRegex(searchInput.value, flags);
@@ -66,4 +100,3 @@ searchInput.addEventListener("input", () => {
     }))
   );
 });
-renderStats();
