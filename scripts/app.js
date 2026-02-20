@@ -1,5 +1,5 @@
-import { addRecord, setRecords, sortRecords, getRecords } from "./state.js";
-import { renderTable } from "./ui.js";
+import { addRecord, sortRecords, getRecords } from "./state.js";
+import { renderTable, renderStats } from "./ui.js";
 import { compileRegex, highlight } from "./search.js";
 
 const form = document.getElementById("transaction-form");
@@ -8,7 +8,7 @@ const caseToggle = document.getElementById("case-toggle");
 
 let currentRegex = null;
 
-/* ===== Add Record ===== */
+/* Add Record */
 form.addEventListener("submit", e => {
   e.preventDefault();
 
@@ -29,18 +29,20 @@ form.addEventListener("submit", e => {
 
   addRecord(newRecord);
   renderTable();
+  renderStats();
   form.reset();
 });
 
-/* ===== Sorting ===== */
+/* Sorting */
 document.querySelectorAll("[data-sort]").forEach(btn => {
   btn.addEventListener("click", () => {
     sortRecords(btn.dataset.sort);
     renderTable();
+    renderStats();
   });
 });
 
-/* ===== Search ===== */
+/* Search */
 searchInput.addEventListener("input", () => {
   const flags = caseToggle.checked ? "i" : "";
   currentRegex = compileRegex(searchInput.value, flags);
@@ -49,6 +51,7 @@ searchInput.addEventListener("input", () => {
 
   if (!currentRegex) {
     renderTable();
+    renderStats();
     return;
   }
 
@@ -63,3 +66,4 @@ searchInput.addEventListener("input", () => {
     }))
   );
 });
+renderStats();

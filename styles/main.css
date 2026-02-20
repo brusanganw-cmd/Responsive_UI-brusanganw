@@ -13,18 +13,18 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.6;
-  background-color: #f5f7fa;
-  color: #1f2933;
+  background-color: #ffffff;
+  color: #111111;
 }
 
-/* ACCESSIBILITY */
+/* Accessibility */
 
 .skip-link {
   position: absolute;
   left: -9999px;
   top: 0;
-  background: #111;
-  color: #fff;
+  background: #000000;
+  color: #ffffff;
   padding: 0.5rem 1rem;
   z-index: 1000;
 }
@@ -35,16 +35,17 @@ body {
 }
 
 :focus {
-  outline: 3px solid #2563eb;
+  outline: 3px solid #e10600;
   outline-offset: 2px;
 }
 
-/*  header / nav */
+/* header / nav */
 
 header {
-  background: #111827;
-  color: white;
+  background: #000000;
+  color: #ffffff;
   padding: 1rem;
+  border-bottom: 4px solid #e10600;
 }
 
 header h1 {
@@ -63,13 +64,14 @@ nav ul {
 
 nav a {
   text-decoration: none;
-  color: #d1d5db;
+  color: #cccccc;
   font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 nav a:hover,
 nav a:focus {
-  color: #ffffff;
+  color: #e10600;
 }
 
 /* Main layout */
@@ -85,9 +87,11 @@ section {
 h2 {
   margin-top: 0;
   font-size: 1.25rem;
+  border-left: 4px solid #e10600;
+  padding-left: 0.5rem;
 }
 
-/* dashboard stats */
+/* Dashboard stats */
 
 .stats-container {
   display: grid;
@@ -95,31 +99,34 @@ h2 {
 }
 
 .stat-card {
-  background: white;
+  background: #ffffff;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border: 1px solid #00000010;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  border-color: #e10600;
 }
 
 .stat-card h3 {
   margin: 0 0 0.5rem 0;
   font-size: 0.95rem;
-  color: #6b7280;
+  color: #555555;
 }
 
 .stat-card p {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
+  color: #000000;
 }
 
-/* Search & Sort */
+/* search & sort */
 
 .search-controls,
 .sort-controls {
@@ -130,6 +137,12 @@ h2 {
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.25rem;
+  border: 1px solid #00000030;
+  border-radius: 6px;
+}
+
+.search-controls input[type="text"]:focus {
+  border-color: #e10600;
 }
 
 .sort-controls button {
@@ -137,12 +150,13 @@ h2 {
   margin-bottom: 0.5rem;
 }
 
-/* TABLE */
+/* table */
 
 .table-container {
   overflow-x: auto;
-  background: white;
+  background: #ffffff;
   border-radius: 8px;
+  border: 1px solid #00000015;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
@@ -156,24 +170,26 @@ th,
 td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #00000015;
 }
 
 th {
-  background: #f3f4f6;
+  background: #000000;
+  color: #ffffff;
   font-weight: 600;
 }
 
 tbody tr:hover {
-  background: #f9fafb;
+  background: #ffe5e5;
 }
 
-/* FORM */
+/* form */
 
 form {
-  background: white;
+  background: #ffffff;
   padding: 1rem;
   border-radius: 8px;
+  border: 1px solid #00000015;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
@@ -188,28 +204,29 @@ label {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="file"] {
   width: 100%;
   padding: 0.5rem;
   border-radius: 6px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #00000030;
 }
 
 input:focus {
-  border-color: #2563eb;
+  border-color: #e10600;
 }
 
 /* Error text */
 .error-message {
-  color: #b91c1c;
+  color: #e10600;
   font-size: 0.85rem;
 }
 
 /* BUTTONS */
 
 button {
-  background: #2563eb;
-  color: white;
+  background: #e10600;
+  color: #ffffff;
   border: none;
   padding: 0.6rem 1rem;
   border-radius: 6px;
@@ -219,7 +236,7 @@ button {
 }
 
 button:hover {
-  background: #1d4ed8;
+  background: #b00000;
   transform: translateY(-2px);
 }
 
@@ -236,10 +253,11 @@ button:active {
 /* FOOTER */
 
 footer {
-  background: #111827;
-  color: #d1d5db;
+  background: #000000;
+  color: #ffffff;
   text-align: center;
   padding: 1rem;
+  border-top: 4px solid #e10600;
 }
 
 /* MEDIA QUERIES */
@@ -258,7 +276,6 @@ footer {
   form {
     max-width: 600px;
   }
-
 }
 
 /* Desktop */
@@ -272,5 +289,4 @@ footer {
   .stats-container {
     grid-template-columns: repeat(4, 1fr);
   }
-
 }

@@ -27,3 +27,19 @@ export function sortRecords(by) {
     records.sort((a, b) => a.amount - b.amount);
   }
 }
+
+export function getTotals() {
+  const records = getRecords();
+
+  const income = records
+    .filter(r => r.amount > 0)
+    .reduce((sum, r) => sum + r.amount, 0);
+
+  const expenses = records
+    .filter(r => r.amount < 0)
+    .reduce((sum, r) => sum + r.amount, 0);
+
+  const balance = income + expenses;
+
+  return { income, expenses, balance };
+}

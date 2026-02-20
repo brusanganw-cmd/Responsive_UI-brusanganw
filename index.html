@@ -137,6 +137,12 @@
         <div id="form-status" role="status" aria-live="polite"></div>
 
       </form>
+     <section class="stats">
+            <div>Income: <span id="income-total">$0.00</span></div>
+            <div>Expenses: <span id="expense-total">$0.00</span></div>
+            <div>Balance: <span id="balance-total">$0.00</span></div>
+        </section>
+
     </section>
 
     <!-- Settings Section -->
@@ -145,8 +151,9 @@
 
       <div class="settings-group">
         <label for="monthly-cap">Monthly Spending Cap</label>
-        <input type="text" id="monthly-cap" />
-      </div>
+        <input type="number" id="monthly-cap" placeholder="Set spending cap" />
+     </div>
+
 
       <div class="settings-group">
         <button id="export-json">Export JSON</button>
